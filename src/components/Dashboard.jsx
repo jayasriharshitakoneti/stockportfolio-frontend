@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SectorChart from "./SectorChart";
-import AddGoalForm from "./AddGoalForm";
+import SectorChart from "./charts/SectorChart";
+import AddGoalForm from "./forms/AddGoalForm";
 import EditableGoalCard from "./EditableGoalCard";
 
 import axios from "axios";

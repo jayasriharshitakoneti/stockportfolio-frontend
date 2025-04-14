@@ -1,0 +1,24 @@
+.login-page {
+  background: url("public\IMG_8528.PNG") no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+}
+
+.login-card .form-control {
+  border-radius: 10px;
+}
+
+.login-card .btn-primary {
+  background-color: #6c63ff;
+  border: none;
+  border-radius: 10px;
+}
+
+.login-card .btn-primary:hover {
+  background-color: #574bff;
+}

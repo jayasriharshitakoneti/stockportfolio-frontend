@@ -1,25 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./components/login/LoginPage";
 import AdminPage from "./components/AdminPage";
-import AddStockForm from "./components/AddStockForm";
-import AddExchangeForm from "./components/AddExchangeForm";
-import UpdateKYCForm from "./components/UpdateKYCForm";
-import UpdateStockPriceForm from "./components/UpdateStockPriceForm";
-import AddMarketNewsForm from "./components/AddMarketNewsForm";
+import AddStockForm from "./components/forms/AddStockForm";
+import AddExchangeForm from "./components/forms/AddExchangeForm";
+import UpdateKYCForm from "./components/forms/UpdateKYCForm";
+import UpdateStockPriceForm from "./components/forms/UpdateStockPriceForm";
+import AddMarketNewsForm from "./components/forms/AddMarketNewsForm";
 import RegisterPage from "./components/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
 import DashboardPage from "./components/Dashboard";
 
-const InvestorDashboard = () => <div>Investor Dashboard Placeholder</div>;
+// const InvestorDashboard = () => <div>Investor Dashboard Placeholder</div>;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Navbar /> {/* ✅ Always visible */}
+      <Navbar />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
