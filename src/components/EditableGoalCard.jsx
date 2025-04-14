@@ -66,7 +66,6 @@ const EditableGoalCard = ({ goal, onGoalUpdated }) => {
           <strong>{goal.goal_name}</strong> – Target: ${goal.target_amount} by{" "}
           {goal.target_date}
           <br />
-          Progress: {goal.progress}%
           <br />
           <button onClick={() => setIsEditing(true)}>✏️ Edit</button>
           <button onClick={remove}>🗑️ Delete</button>

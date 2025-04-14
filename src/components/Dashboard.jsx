@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import SectorChart from "./charts/SectorChart";
 import AddGoalForm from "./forms/AddGoalForm";
 import EditableGoalCard from "./EditableGoalCard";
+import PreferencesForm from "./PreferencesForm";
+import TradeStockForm from "./TradeStockForm";
+import AvailableStockList from "./AvailableStockList";
 
 import axios from "axios";
 
@@ -49,7 +52,12 @@ const DashboardPage = () => {
           Notifications:{" "}
           {preferences?.notification_enabled ? "🔔 Enabled" : "🔕 Disabled"}
         </p>
+        <PreferencesForm
+          current={preferences}
+          onUpdate={() => window.location.reload()}
+        />
       </section>
+
       {/* 🎯 Goals */}
       <section style={styles.card}>
         <h2>🎯 Investment Goals</h2>
@@ -63,7 +71,6 @@ const DashboardPage = () => {
         <AddGoalForm onGoalAdded={() => window.location.reload()} />
       </section>
 
-      {/* 📈 Watchlist */}
       <section style={styles.card}>
         <h2>📌 Watchlist</h2>
         {watchlist?.length ? (
@@ -72,6 +79,31 @@ const DashboardPage = () => {
               <li key={stock.stock_id}>
                 <strong>{stock.symbol}</strong> – {stock.company_name} ($
                 {stock.current_value})
+                <button
+                  style={styles.removeBtn}
+                  onClick={async () => {
+                    try {
+                      await axios.post(
+                        "http://localhost:8080/watchlist/remove",
+                        {
+                          user_id: userId,
+                          stock_id: stock.stock_id,
+                        }
+                      );
+                      window.location.reload();
+                    } catch {
+                      alert("❌ Failed to remove");
+                    }
+                  }}
+                >
+                  ❌ Remove
+                </button>
+                <TradeStockForm
+                  stockId={stock.stock_id}
+                  symbol={stock.symbol}
+                  portfolios={portfolios}
+                  onTrade={() => window.location.reload()}
+                />
               </li>
             ))}
           </ul>
@@ -79,6 +111,7 @@ const DashboardPage = () => {
           <p>No stocks in watchlist.</p>
         )}
       </section>
+
       {/* 💼 Portfolios */}
       <section style={styles.card}>
         <h2>💼 Portfolios</h2>
@@ -105,11 +138,21 @@ const DashboardPage = () => {
       {console.log(holdings)}
       {/* 📊 Sector Breakdown */}
       {holdings?.length > 0 && <SectorChart holdings={holdings} />}
+      <AvailableStockList onAdded={() => window.location.reload()} />
     </div>
   );
 };
 
 const styles = {
+  removeBtn: {
+    marginLeft: "10px",
+    background: "#e74c3c",
+    color: "white",
+    border: "none",
+    padding: "5px 10px",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
   container: {
     maxWidth: "1000px",
     margin: "0 auto",
