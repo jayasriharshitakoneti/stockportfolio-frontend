@@ -5,6 +5,7 @@ import EditableGoalCard from "./EditableGoalCard";
 import PreferencesForm from "./PreferencesForm";
 import TradeStockForm from "./TradeStockForm";
 import AvailableStockList from "./AvailableStockList";
+import AddPortfolioForm from "./AddPortfolioForm";
 
 import axios from "axios";
 
@@ -115,6 +116,8 @@ const DashboardPage = () => {
       {/* 💼 Portfolios */}
       <section style={styles.card}>
         <h2>💼 Portfolios</h2>
+        <AddPortfolioForm onAdded={() => window.location.reload()} />
+
         {portfolios?.map((p) => (
           <div key={p.portfolio_id} style={styles.subCard}>
             <strong>{p.portfolio_name}</strong> (ID: {p.portfolio_id}) –
