@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ListGroup, Button, Container } from "react-bootstrap";
 
 const AvailableStockList = ({ onAdded }) => {
   const [stocks, setStocks] = useState([]);
@@ -22,43 +23,34 @@ const AvailableStockList = ({ onAdded }) => {
       alert("✅ Added to watchlist!");
       onAdded();
     } catch (err) {
-      alert("❌ Failed to add: " + err.response?.data?.error || "Unknown");
+      alert("❌ Failed to add: " + (err.response?.data?.error || "Unknown"));
     }
   };
 
   return (
-    <div style={styles.container}>
+    <Container style={{ marginTop: "20px" }}>
       <h3>📘 Available Stocks</h3>
-      <ul>
+      <ListGroup>
         {stocks.map((s) => (
-          <li key={s.stock_id} style={styles.item}>
+          <ListGroup.Item
+            key={s.stock_id}
+            className="d-flex justify-content-between align-items-center"
+          >
             <span>
               <strong>{s.symbol}</strong> – {s.company_name} (${s.current_value}
               )
             </span>
-            <button
+            <Button
+              variant="primary"
               onClick={() => addToWatchlist(s.stock_id)}
-              style={styles.button}
             >
               ➕ Add
-            </button>
-          </li>
+            </Button>
+          </ListGroup.Item>
         ))}
-      </ul>
-    </div>
+      </ListGroup>
+    </Container>
   );
-};
-
-const styles = {
-  container: { marginTop: "20px" },
-  item: { display: "flex", justifyContent: "space-between", margin: "8px 0" },
-  button: {
-    background: "#3498db",
-    color: "#fff",
-    padding: "4px 8px",
-    border: "none",
-    borderRadius: "4px",
-  },
 };
 
 export default AvailableStockList;

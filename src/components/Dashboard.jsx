@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import SectorChart from "./charts/SectorChart";
 import AddGoalForm from "./forms/AddGoalForm";
 import EditableGoalCard from "./EditableGoalCard";
-import PreferencesForm from "./PreferencesForm";
-import TradeStockForm from "./TradeStockForm";
+import PreferencesForm from "./forms/PreferencesForm";
+import TradeStockForm from "./forms/TradeStockForm";
 import AvailableStockList from "./AvailableStockList";
 
 import axios from "axios";
@@ -41,6 +41,8 @@ const DashboardPage = () => {
           <span style={styles.kyc(userInfo.is_kyc_done)}>
             {userInfo.is_kyc_done ? "✅ Done" : "❌ Pending"}
           </span>
+          💰 Available Funds:{" "}
+          <strong>${parseFloat(userInfo.available_funds).toFixed(2)}</strong>
         </p>
       </section>
       {/* ⚙️ Preferences */}
@@ -119,6 +121,9 @@ const DashboardPage = () => {
           <div key={p.portfolio_id} style={styles.subCard}>
             <strong>{p.portfolio_name}</strong> (ID: {p.portfolio_id}) –
             Created: {new Date(p.created_date).toDateString()}
+            <p>
+              <strong>Total Profit/Loss:</strong> ${p.profit.toFixed(2)}
+            </p>
             <ul>
               {holdings
                 .filter((h) => h.portfolio_id === p.portfolio_id)
@@ -128,7 +133,11 @@ const DashboardPage = () => {
                     <br />
                     Shares: {h.shares_owned}, Avg Price: $
                     {h.stock_average_price}, Current Value: ${h.current_value} →{" "}
-                    <strong>Total: ${h.total_value}</strong>
+                    <strong>Total: ${h.total_value}</strong>,{" "}
+                    <strong>
+                      Profit/Loss: $
+                      {h.total_value - h.shares_owned * h.stock_average_price}
+                    </strong>
                   </li>
                 ))}
             </ul>

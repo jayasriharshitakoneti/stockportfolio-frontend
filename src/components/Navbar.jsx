@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Navbar, Nav, Button, Container } from "react-bootstrap";
 
-const Navbar = () => {
+const AppNavbar = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
@@ -12,74 +13,63 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={styles.nav}>
-      <div style={styles.left}>
-        <span style={styles.logo}>KoRe</span>
-      </div>
-
-      <div style={styles.right}>
-        {!userId ? (
-          <>
-            <button style={styles.button} onClick={() => navigate("/")}>
-              Login
-            </button>
-            <button style={styles.button} onClick={() => navigate("/register")}>
-              Register
-            </button>
-          </>
-        ) : (
-          <>
-            {role === "admin" && (
-              <button style={styles.button} onClick={() => navigate("/admin")}>
-                Admin Dashboard
-              </button>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        >
+          KoRe
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            {!userId ? (
+              <>
+                <Button
+                  variant="outline-light"
+                  className="me-2"
+                  onClick={() => navigate("/")}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="outline-light"
+                  onClick={() => navigate("/register")}
+                >
+                  Register
+                </Button>
+              </>
+            ) : (
+              <>
+                {role === "admin" && (
+                  <Button
+                    variant="outline-light"
+                    className="me-2"
+                    onClick={() => navigate("/admin")}
+                  >
+                    Admin Dashboard
+                  </Button>
+                )}
+                {role === "investor" && (
+                  <Button
+                    variant="outline-light"
+                    className="me-2"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Investor Dashboard
+                  </Button>
+                )}
+                <Button variant="danger" onClick={logout}>
+                  Logout
+                </Button>
+              </>
             )}
-            {role === "investor" && (
-              <button
-                style={styles.button}
-                onClick={() => navigate("/dashboard")}
-              >
-                Investor Dashboard
-              </button>
-            )}
-            <button style={styles.button} onClick={logout}>
-              Logout
-            </button>
-          </>
-        )}
-      </div>
-    </nav>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
-const styles = {
-  nav: {
-    background: "#333",
-    color: "#fff",
-    padding: "10px 20px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  left: {
-    fontSize: "20px",
-    fontWeight: "bold",
-  },
-  right: {
-    display: "flex",
-    gap: "10px",
-  },
-  logo: {
-    fontSize: "18px",
-  },
-  button: {
-    background: "#2575fc",
-    border: "none",
-    color: "#fff",
-    padding: "8px 12px",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
-};
-
-export default Navbar;
+export default AppNavbar;
