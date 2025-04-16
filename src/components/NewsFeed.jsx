@@ -5,7 +5,6 @@ const NewsFeed = ({ userId }) => {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    console.log("Fetching news for userId:", userId);
     const loadNews = async () => {
       const res = await axios.get("http://localhost:8080/user/news", {
         params: { userId },

@@ -191,7 +191,6 @@ const AdminPage = () => {
             onClose={() => setShowAddStockModal(false)} // Close modal after submission
             onStockAdded={() => {
               setShowAddStockModal(false);
-              // Optionally, refresh the stock list
               axios
                 .get("http://localhost:8080/admin/stocks")
                 .then((response) => {

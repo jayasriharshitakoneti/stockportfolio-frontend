@@ -12,6 +12,11 @@ import AddMarketNewsForm from "./components/forms/AddMarketNewsForm";
 import RegisterPage from "./components/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
 import DashboardPage from "./components/Dashboard";
+import FundsPage from "./components/FundsPage";
+import HoldingsPage from "./components/HoldingsPage";
+import WatchlistPage from "./components/WatchlistPage";
+import PreferencesPage from "./components/PreferencesPage";
+import GoalsPage from "./components/GoalsPage";
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -31,12 +36,12 @@ const App = () => {
           }
         />
         <Route path="/register" element={<RegisterPage />} />
-        {/* <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/holdings" element={<HoldingsPage />} />
         <Route path="/watchlist" element={<WatchlistPage />} />
         <Route path="/funds" element={<FundsPage />} />
         <Route path="/preferences" element={<PreferencesPage />} />
-        <Route path="/goals" element={<GoalsPage />} /> */}
+        <Route path="/goals" element={<GoalsPage />} />
 
         {/* Investor-only route */}
         <Route

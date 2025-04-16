@@ -34,7 +34,6 @@ const AddGoalForm = ({ onGoalAdded }) => {
 
   return (
     <Container style={{ marginTop: "20px" }}>
-      <h3>Add / Update Goal</h3>
       <Form onSubmit={submitGoal}>
         <Form.Group className="mb-3" controlId="formGoalName">
           <Form.Label>Goal Name</Form.Label>
