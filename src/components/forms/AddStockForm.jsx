@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AddStockForm = () => {
+const AddStockForm = ({ onClose, onStockAdded }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     symbol: "",
@@ -23,7 +23,8 @@ const AddStockForm = () => {
     try {
       await axios.post("http://localhost:8080/admin/add-stock", form);
       alert("Stock added successfully!");
-      navigate("http://localhost:8080/admin");
+      navigate("/admin");
+      onClose();
     } catch (err) {
       alert("Error adding stock: " + err.response?.data?.error);
     }
