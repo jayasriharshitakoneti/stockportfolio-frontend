@@ -6,6 +6,7 @@ import PreferencesForm from "./forms/PreferencesForm";
 import TradeStockForm from "./forms/TradeStockForm";
 import AvailableStockList from "./AvailableStockList";
 import AddPortfolioForm from "./AddPortfolioForm";
+import NewsFeed from "./NewsFeed";
 
 import axios from "axios";
 import { Container, Card, Button, ListGroup, Alert } from "react-bootstrap";
@@ -193,6 +194,7 @@ const DashboardPage = () => {
 
       {/* 📘 Available Stocks */}
       <AvailableStockList onAdded={() => window.location.reload()} />
+      <NewsFeed userId={userId} />
     </Container>
   );
 };
