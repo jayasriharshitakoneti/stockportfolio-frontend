@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
-import "./LoginPage.css"; // Import custom CSS
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");

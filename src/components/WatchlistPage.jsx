@@ -5,14 +5,14 @@ import TradeStockForm from "./forms/TradeStockForm";
 const WatchlistPage = ({ watchlist, portfolios, userId, onRemove }) => {
   return (
     <Container className="mt-4">
-      <h1 className="text-center mb-4">📌 Watchlist</h1>
+      <h1 className="text-center mb-4">Watchlist</h1>
       {watchlist?.length ? (
         <ListGroup>
           {watchlist.map((stock) => (
             <ListGroup.Item key={stock.stock_id}>
               <Row className="align-items-center">
                 <Col md={6}>
-                  <strong>{stock.symbol}</strong> – {stock.company_name} ($
+                  <strong>{stock.symbol}</strong> - {stock.company_name} ($
                   {stock.current_value})
                 </Col>
                 <Col md={6} className="d-flex justify-content-end">
@@ -22,7 +22,7 @@ const WatchlistPage = ({ watchlist, portfolios, userId, onRemove }) => {
                     className="me-2"
                     onClick={() => onRemove(stock.stock_id)}
                   >
-                    ❌ Remove
+                    Remove
                   </Button>
                   <TradeStockForm
                     stockId={stock.stock_id}

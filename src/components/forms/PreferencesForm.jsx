@@ -22,10 +22,10 @@ const PreferencesForm = ({ current, onUpdate }) => {
         preferred_risk_level,
         notification_enabled,
       });
-      setMessage("✅ Preferences saved!");
-      onUpdate(); // Refresh data
+      setMessage("Preferences saved!");
+      onUpdate();
     } catch {
-      setMessage("❌ Failed to save.");
+      setMessage("Failed to save.");
     }
   };
 
@@ -66,13 +66,15 @@ const PreferencesForm = ({ current, onUpdate }) => {
         </Form.Group>
 
         <Button variant="primary" onClick={save}>
-          💾 Save Preferences
+          Save Preferences
         </Button>
       </Form>
 
       {message && (
         <Alert
-          variant={message.startsWith("✅") ? "success" : "danger"}
+          variant={
+            message.startsWith("Preferences saved!") ? "success" : "danger"
+          }
           className="mt-3"
         >
           {message}

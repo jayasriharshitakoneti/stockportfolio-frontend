@@ -5,7 +5,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const SectorChart = ({ holdings }) => {
-  // Group by sector and total value
   const sectorTotals = {};
   holdings.forEach((h) => {
     const sector = h.sector || "Unknown";
@@ -38,7 +37,7 @@ const SectorChart = ({ holdings }) => {
 
   return (
     <div style={{ maxWidth: "500px", margin: "20px auto" }}>
-      <h3 style={{ textAlign: "center" }}>📊 Sector-wise Investment</h3>
+      <h3 style={{ textAlign: "center" }}>Sector-wise Investment</h3>
       <Pie data={data} />
     </div>
   );

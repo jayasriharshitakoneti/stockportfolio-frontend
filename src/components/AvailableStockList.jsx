@@ -20,16 +20,16 @@ const AvailableStockList = ({ onAdded }) => {
         user_id,
         stock_id,
       });
-      alert("✅ Added to watchlist!");
+      alert("Added to watchlist!");
       onAdded();
     } catch (err) {
-      alert("❌ Failed to add: " + (err.response?.data?.error || "Unknown"));
+      alert("Failed to add: " + (err.response?.data?.error || "Unknown"));
     }
   };
 
   return (
     <Container style={{ marginTop: "20px" }}>
-      <h3>📘 Available Stocks</h3>
+      <h3>Available Stocks</h3>
       <ListGroup>
         {stocks.map((s) => (
           <ListGroup.Item
@@ -44,7 +44,7 @@ const AvailableStockList = ({ onAdded }) => {
               variant="primary"
               onClick={() => addToWatchlist(s.stock_id)}
             >
-              ➕ Add
+              Add
             </Button>
           </ListGroup.Item>
         ))}

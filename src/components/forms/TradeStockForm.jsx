@@ -23,12 +23,10 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
         user_id,
         stock_id: stockId,
       });
-      setMessage("✅ Trade executed!");
-      onTrade(); // Refresh dashboard
+      setMessage("Trade executed!");
+      onTrade();
     } catch (err) {
-      setMessage(
-        "❌ Failed: " + (err.response?.data?.error || "Unknown error")
-      );
+      setMessage("Failed: " + (err.response?.data?.error || "Unknown error"));
     }
   };
 
@@ -107,7 +105,7 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
 
       {message && (
         <Alert
-          variant={message.startsWith("✅") ? "success" : "danger"}
+          variant={message.startsWith("Trade executed!") ? "success" : "danger"}
           className="mt-3"
         >
           {message}

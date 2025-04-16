@@ -17,11 +17,11 @@ const AddPortfolioForm = ({ onAdded }) => {
         user_id,
         portfolio_name,
       });
-      setMessage("✅ Portfolio created!");
+      setMessage("Portfolio created!");
       setPortfolioName("");
       onAdded();
     } catch (err) {
-      setMessage("❌ " + (err.response?.data?.error || "Failed to create"));
+      setMessage("" + (err.response?.data?.error || "Failed to create"));
     }
   };
 
@@ -39,12 +39,14 @@ const AddPortfolioForm = ({ onAdded }) => {
           />
         </Form.Group>
         <Button variant="primary" onClick={submit}>
-          ➕ Create
+          Create
         </Button>
       </Form>
       {message && (
         <Alert
-          variant={message.startsWith("✅") ? "success" : "danger"}
+          variant={
+            message.startsWith("Portfolio created!") ? "success" : "danger"
+          }
           className="mt-3"
         >
           {message}

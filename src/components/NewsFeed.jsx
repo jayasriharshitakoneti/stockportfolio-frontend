@@ -25,7 +25,7 @@ const NewsFeed = ({ userId }) => {
               <strong>{n.headline}</strong>
               <br />
               <span style={styles.meta}>
-                {n.symbol} – {n.company_name}
+                {n.symbol} - {n.company_name}
                 <br />
                 {n.publication_date} | {n.news_source} | Impact:{" "}
                 {n.impact_score}%

@@ -32,9 +32,9 @@ const DashboardPage = () => {
 
   return (
     <Container className="mt-4">
-      <h1 className="text-center mb-4">📊 Investor Dashboard</h1>
+      <h1 className="text-center mb-4">Investor Dashboard</h1>
 
-      {/* 🧑 Profile Section */}
+      {/*Profile Section */}
       <Card className="mb-4">
         <Card.Body>
           <Card.Title>
@@ -49,20 +49,20 @@ const DashboardPage = () => {
                 fontWeight: "bold",
               }}
             >
-              {userInfo.is_kyc_done ? "✅ Done" : "❌ Pending"}
+              {userInfo.is_kyc_done ? "Done" : "Pending"}
             </span>
           </Card.Text>
           <Card.Text>
-            💰 Available Funds:{" "}
+            Available Funds:{" "}
             <strong>${parseFloat(userInfo.available_funds).toFixed(2)}</strong>
           </Card.Text>
         </Card.Body>
       </Card>
 
-      {/* ⚙️ Preferences */}
+      {/*Preferences */}
       <Card className="mb-4">
         <Card.Body>
-          <Card.Title>⚙️ Preferences</Card.Title>
+          <Card.Title>Preferences</Card.Title>
           <Card.Text>
             Preferred Sector: {preferences?.preferred_sector || "N/A"}
           </Card.Text>
@@ -71,7 +71,7 @@ const DashboardPage = () => {
           </Card.Text>
           <Card.Text>
             Notifications:{" "}
-            {preferences?.notification_enabled ? "🔔 Enabled" : "🔕 Disabled"}
+            {preferences?.notification_enabled ? "Enabled" : "Disabled"}
           </Card.Text>
           <PreferencesForm
             current={preferences}
@@ -80,10 +80,10 @@ const DashboardPage = () => {
         </Card.Body>
       </Card>
 
-      {/* 🎯 Goals */}
+      {/*Goals */}
       <Card className="mb-4">
         <Card.Body>
-          <Card.Title>🎯 Investment Goals</Card.Title>
+          <Card.Title>Investment Goals</Card.Title>
           {goals?.map((goal) => (
             <EditableGoalCard
               key={goal.goal_id}
@@ -95,10 +95,10 @@ const DashboardPage = () => {
         </Card.Body>
       </Card>
 
-      {/* 📌 Watchlist */}
+      {/* Watchlist */}
       <Card className="mb-4">
         <Card.Body>
-          <Card.Title>📌 Watchlist</Card.Title>
+          <Card.Title>Watchlist</Card.Title>
           {watchlist?.length ? (
             <ListGroup>
               {watchlist.map((stock) => (
@@ -107,7 +107,7 @@ const DashboardPage = () => {
                   className="d-flex flex-column w-100 justify-content-between"
                 >
                   <span>
-                    <strong>{stock.symbol}</strong> – {stock.company_name} ($
+                    <strong>{stock.symbol}</strong> - {stock.company_name} ($
                     {stock.current_value})
                   </span>
                   <div>
@@ -126,11 +126,11 @@ const DashboardPage = () => {
                           );
                           window.location.reload();
                         } catch {
-                          alert("❌ Failed to remove");
+                          alert("Failed to remove");
                         }
                       }}
                     >
-                      ❌ Remove
+                      Remove
                     </Button>
                     <TradeStockForm
                       className="d-inline-block w-100"
@@ -149,10 +149,10 @@ const DashboardPage = () => {
         </Card.Body>
       </Card>
 
-      {/* 💼 Portfolios */}
+      {/*Portfolios */}
       <Card className="mb-4">
         <Card.Body>
-          <Card.Title>💼 Portfolios</Card.Title>
+          <Card.Title>Portfolios</Card.Title>
           <AddPortfolioForm onAdded={() => window.location.reload()} />
           {portfolios?.map((p) => (
             <Card className="mt-3" key={p.portfolio_id}>
@@ -169,7 +169,7 @@ const DashboardPage = () => {
                     .filter((h) => h.portfolio_id === p.portfolio_id)
                     .map((h) => (
                       <ListGroup.Item key={h.stock_id}>
-                        {h.symbol} – {h.company_name}
+                        {h.symbol} - {h.company_name}
                         <br />
                         Shares: {h.shares_owned}, Avg Price: $
                         {h.stock_average_price}, Current Value: $
@@ -189,10 +189,10 @@ const DashboardPage = () => {
         </Card.Body>
       </Card>
 
-      {/* 📊 Sector Breakdown */}
+      {/*Sector Breakdown */}
       {holdings?.length > 0 && <SectorChart holdings={holdings} />}
 
-      {/* 📘 Available Stocks */}
+      {/*Available Stocks */}
       <AvailableStockList onAdded={() => window.location.reload()} />
       <NewsFeed userId={userId} />
     </Container>

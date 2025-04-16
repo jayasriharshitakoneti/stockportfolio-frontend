@@ -22,11 +22,11 @@ const AddGoalForm = ({ onGoalAdded }) => {
         target_amount,
         target_date,
       });
-      setMessage("✅ Goal saved!");
+      setMessage("Goal saved!");
       setGoalName("");
       setTargetAmount("");
       setTargetDate("");
-      onGoalAdded(); // Refresh dashboard
+      onGoalAdded();
     } catch (err) {
       setMessage(err.response?.data?.error || "Failed to save goal.");
     }
@@ -68,7 +68,7 @@ const AddGoalForm = ({ onGoalAdded }) => {
       </Form>
       {message && (
         <Alert
-          variant={message.startsWith("✅") ? "success" : "danger"}
+          variant={message.startsWith("Goal saved!") ? "success" : "danger"}
           className="mt-3"
         >
           {message}

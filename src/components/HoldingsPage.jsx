@@ -4,7 +4,7 @@ import { Container, Card, ListGroup } from "react-bootstrap";
 const HoldingsPage = ({ portfolios, holdings }) => {
   return (
     <Container className="mt-4">
-      <h1 className="text-center mb-4">💼 Portfolios</h1>
+      <h1 className="text-center mb-4">Portfolios</h1>
       {portfolios?.map((p) => (
         <Card className="mb-4" key={p.portfolio_id}>
           <Card.Body>
@@ -20,7 +20,7 @@ const HoldingsPage = ({ portfolios, holdings }) => {
                 .filter((h) => h.portfolio_id === p.portfolio_id)
                 .map((h) => (
                   <ListGroup.Item key={h.stock_id}>
-                    {h.symbol} – {h.company_name}
+                    {h.symbol} - {h.company_name}
                     <br />
                     Shares: {h.shares_owned}, Avg Price: $
                     {h.stock_average_price}, Current Value: ${h.current_value} →{" "}

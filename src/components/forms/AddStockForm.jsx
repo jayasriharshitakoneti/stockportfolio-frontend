@@ -23,7 +23,7 @@ const AddStockForm = () => {
     try {
       await axios.post("http://localhost:8080/admin/add-stock", form);
       alert("Stock added successfully!");
-      navigate("http://localhost:8080/admin"); // Redirect to admin page after successful addition
+      navigate("http://localhost:8080/admin");
     } catch (err) {
       alert("Error adding stock: " + err.response?.data?.error);
     }
