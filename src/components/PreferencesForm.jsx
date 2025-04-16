@@ -21,10 +21,10 @@ const PreferencesForm = ({ current, onUpdate }) => {
         preferred_risk_level,
         notification_enabled,
       });
-      setMessage("✅ Preferences saved!");
-      onUpdate(); // Refresh data
+      setMessage("Preferences saved!");
+      onUpdate();
     } catch {
-      setMessage("❌ Failed to save.");
+      setMessage("Failed to save.");
     }
   };
 
@@ -54,7 +54,7 @@ const PreferencesForm = ({ current, onUpdate }) => {
         />{" "}
         Enable Notifications
       </label>
-      <button onClick={save}>💾 Save Preferences</button>
+      <button onClick={save}>Save Preferences</button>
       {message && <p>{message}</p>}
     </div>
   );

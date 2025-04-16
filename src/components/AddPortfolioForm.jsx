@@ -16,11 +16,11 @@ const AddPortfolioForm = ({ onAdded }) => {
         user_id,
         portfolio_name,
       });
-      setMessage("✅ Portfolio created!");
+      setMessage("Portfolio created!");
       setPortfolioName("");
       onAdded();
     } catch (err) {
-      setMessage("❌ " + (err.response?.data?.error || "Failed to create"));
+      setMessage(err.response?.data?.error || "Failed to create");
     }
   };
 
@@ -33,7 +33,7 @@ const AddPortfolioForm = ({ onAdded }) => {
         value={portfolio_name}
         onChange={(e) => setPortfolioName(e.target.value)}
       />
-      <button onClick={submit}>➕ Create</button>
+      <button onClick={submit}>Create</button>
       {message && <p>{message}</p>}
     </div>
   );

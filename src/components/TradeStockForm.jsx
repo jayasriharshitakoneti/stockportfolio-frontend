@@ -22,12 +22,10 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
         user_id,
         stock_id: stockId,
       });
-      setMessage("✅ Trade executed!");
-      onTrade(); // Refresh dashboard
+      setMessage("Trade executed!");
+      onTrade();
     } catch (err) {
-      setMessage(
-        "❌ Failed: " + (err.response?.data?.error || "Unknown error")
-      );
+      setMessage("Failed: " + (err.response?.data?.error || "Unknown error"));
     }
   };
 
@@ -73,7 +71,7 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
         onChange={handleChange}
         placeholder="Transaction Mode"
       />
-      <button onClick={submit}>💸 Execute</button>
+      <button onClick={submit}>Execute</button>
       {message && <p style={{ marginTop: "8px" }}>{message}</p>}
     </div>
   );

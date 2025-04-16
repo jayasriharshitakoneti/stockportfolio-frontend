@@ -6,6 +6,7 @@ import PreferencesForm from "./PreferencesForm";
 import TradeStockForm from "./TradeStockForm";
 import AvailableStockList from "./AvailableStockList";
 import AddPortfolioForm from "./AddPortfolioForm";
+import NewsFeed from "./NewsFeed";
 
 import axios from "axios";
 
@@ -30,28 +31,28 @@ const DashboardPage = () => {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>📊 Investor Dashboard</h1>
-      {/* 🧑 Profile Section */}
+      <h1 style={styles.heading}>Investor Dashboard</h1>
+      {/*Profile Section */}
       <section style={styles.card}>
         <h2>
-          👤 Welcome, {userInfo.firstname} {userInfo.lastname}
+          Welcome, {userInfo.firstname} {userInfo.lastname}
         </h2>
         <p>Email: {userInfo.email}</p>
         <p>
           KYC Status:{" "}
           <span style={styles.kyc(userInfo.is_kyc_done)}>
-            {userInfo.is_kyc_done ? "✅ Done" : "❌ Pending"}
+            {userInfo.is_kyc_done ? "Done" : "Pending"}
           </span>
         </p>
       </section>
-      {/* ⚙️ Preferences */}
+      {/*Preferences */}
       <section style={styles.card}>
-        <h2>⚙️ Preferences</h2>
+        <h2>Preferences</h2>
         <p>Preferred Sector: {preferences?.preferred_sector || "N/A"}</p>
         <p>Risk Level: {preferences?.preferred_risk_level || "N/A"}</p>
         <p>
           Notifications:{" "}
-          {preferences?.notification_enabled ? "🔔 Enabled" : "🔕 Disabled"}
+          {preferences?.notification_enabled ? "Enabled" : "Disabled"}
         </p>
         <PreferencesForm
           current={preferences}
@@ -59,9 +60,9 @@ const DashboardPage = () => {
         />
       </section>
 
-      {/* 🎯 Goals */}
+      {/*Goals */}
       <section style={styles.card}>
-        <h2>🎯 Investment Goals</h2>
+        <h2>Investment Goals</h2>
         {goals?.map((goal) => (
           <EditableGoalCard
             key={goal.goal_id}
@@ -73,7 +74,7 @@ const DashboardPage = () => {
       </section>
 
       <section style={styles.card}>
-        <h2>📌 Watchlist</h2>
+        <h2>Watchlist</h2>
         {watchlist?.length ? (
           <ul>
             {watchlist.map((stock) => (
@@ -93,11 +94,11 @@ const DashboardPage = () => {
                       );
                       window.location.reload();
                     } catch {
-                      alert("❌ Failed to remove");
+                      alert("Failed to remove");
                     }
                   }}
                 >
-                  ❌ Remove
+                  Remove
                 </button>
                 <TradeStockForm
                   stockId={stock.stock_id}
@@ -113,9 +114,9 @@ const DashboardPage = () => {
         )}
       </section>
 
-      {/* 💼 Portfolios */}
+      {/*Portfolios */}
       <section style={styles.card}>
-        <h2>💼 Portfolios</h2>
+        <h2>Portfolios</h2>
         <AddPortfolioForm onAdded={() => window.location.reload()} />
 
         {portfolios?.map((p) => (
@@ -139,9 +140,10 @@ const DashboardPage = () => {
         ))}
       </section>
       {console.log(holdings)}
-      {/* 📊 Sector Breakdown */}
+      {/*Sector Breakdown */}
       {holdings?.length > 0 && <SectorChart holdings={holdings} />}
       <AvailableStockList onAdded={() => window.location.reload()} />
+      <NewsFeed userId={userId} />
     </div>
   );
 };

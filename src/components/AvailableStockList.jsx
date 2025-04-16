@@ -19,16 +19,16 @@ const AvailableStockList = ({ onAdded }) => {
         user_id,
         stock_id,
       });
-      alert("✅ Added to watchlist!");
+      alert("Added to watchlist!");
       onAdded();
     } catch (err) {
-      alert("❌ Failed to add: " + err.response?.data?.error || "Unknown");
+      alert("Failed to add: " + err.response?.data?.error || "Unknown");
     }
   };
 
   return (
     <div style={styles.container}>
-      <h3>📘 Available Stocks</h3>
+      <h3>Available Stocks</h3>
       <ul>
         {stocks.map((s) => (
           <li key={s.stock_id} style={styles.item}>
@@ -40,7 +40,7 @@ const AvailableStockList = ({ onAdded }) => {
               onClick={() => addToWatchlist(s.stock_id)}
               style={styles.button}
             >
-              ➕ Add
+              Add
             </button>
           </li>
         ))}

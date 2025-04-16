@@ -21,11 +21,11 @@ const AddGoalForm = ({ onGoalAdded }) => {
         target_amount,
         target_date,
       });
-      setMessage("✅ Goal saved!");
+      setMessage("Goal saved!");
       setGoalName("");
       setTargetAmount("");
       setTargetDate("");
-      onGoalAdded(); // Refresh dashboard
+      onGoalAdded();
     } catch (err) {
       setMessage(err.response?.data?.error || "Failed to save goal.");
     }

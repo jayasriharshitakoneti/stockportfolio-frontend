@@ -19,11 +19,11 @@ const EditableGoalCard = ({ goal, onGoalUpdated }) => {
         user_id: localStorage.getItem("userId"),
         ...form,
       });
-      setMessage("✅ Goal updated!");
+      setMessage("Goal updated!");
       setIsEditing(false);
       onGoalUpdated();
     } catch (err) {
-      setMessage("❌ Update failed.");
+      setMessage("Update failed.");
     }
   };
 
@@ -33,7 +33,7 @@ const EditableGoalCard = ({ goal, onGoalUpdated }) => {
       await axios.delete(`http://localhost:8080/goal/${goal.goal_id}`);
       onGoalUpdated();
     } catch {
-      setMessage("❌ Delete failed.");
+      setMessage("Delete failed.");
     }
   };
 
@@ -58,17 +58,17 @@ const EditableGoalCard = ({ goal, onGoalUpdated }) => {
             value={form.target_date}
             onChange={handleChange}
           />
-          <button onClick={save}>💾 Save</button>
-          <button onClick={() => setIsEditing(false)}>✖️ Cancel</button>
+          <button onClick={save}>Save</button>
+          <button onClick={() => setIsEditing(false)}>Cancel</button>
         </>
       ) : (
         <>
-          <strong>{goal.goal_name}</strong> – Target: ${goal.target_amount} by{" "}
+          <strong>{goal.goal_name}</strong> - Target: ${goal.target_amount} by{" "}
           {goal.target_date}
           <br />
           <br />
-          <button onClick={() => setIsEditing(true)}>✏️ Edit</button>
-          <button onClick={remove}>🗑️ Delete</button>
+          <button onClick={() => setIsEditing(true)}>Edit</button>
+          <button onClick={remove}>Delete</button>
         </>
       )}
       {message && <p style={{ fontSize: "13px" }}>{message}</p>}

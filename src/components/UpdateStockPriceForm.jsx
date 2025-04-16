@@ -18,7 +18,7 @@ const UpdateStockPriceForm = () => {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError(""); // clear previous error
+    setError("");
   };
 
   const isNumeric = (value) => !isNaN(parseFloat(value)) && isFinite(value);

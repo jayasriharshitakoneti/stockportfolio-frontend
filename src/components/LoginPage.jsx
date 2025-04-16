@@ -25,7 +25,6 @@ const LoginPage = () => {
       localStorage.setItem("userId", userId);
       localStorage.setItem("role", role);
 
-      // Route based on role
       if (role === "ADMIN") {
         navigate("/admin");
       } else {
