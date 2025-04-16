@@ -99,7 +99,7 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
         </Form.Group>
 
         <Button variant="primary" onClick={submit}>
-          💸 Execute
+          Execute
         </Button>
       </Form>
 

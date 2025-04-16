@@ -6,7 +6,7 @@ import LoginPage from "./components/login/LoginPage";
 import AdminPage from "./components/AdminPage";
 import AddStockForm from "./components/forms/AddStockForm";
 import AddExchangeForm from "./components/forms/AddExchangeForm";
-import UpdateKYCForm from "./components/forms/UpdateKYCForm";
+// import UpdateKYCForm from "./components/forms/UpdateKYCForm";
 import UpdateStockPriceForm from "./components/forms/UpdateStockPriceForm";
 import AddMarketNewsForm from "./components/forms/AddMarketNewsForm";
 import RegisterPage from "./components/RegisterPage";
@@ -69,14 +69,6 @@ const App = () => {
           element={
             <PrivateRoute allowedRoles={["ADMIN"]}>
               <AddExchangeForm />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/admin/update-kyc"
-          element={
-            <PrivateRoute allowedRoles={["ADMIN"]}>
-              <UpdateKYCForm />
             </PrivateRoute>
           }
         />
