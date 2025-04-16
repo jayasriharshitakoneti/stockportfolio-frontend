@@ -47,6 +47,13 @@ const AddExchangeForm = () => {
       <button onClick={submit} style={{ padding: "10px 20px" }}>
         Add Exchange
       </button>
+      <button
+        onClick={() => {
+          navigate("/admin");
+        }}
+      >
+        Back
+      </button>
     </div>
   );
 };

@@ -45,6 +45,13 @@ const UpdateKYCForm = () => {
       >
         Update KYC
       </button>
+      <button
+        onClick={() => {
+          navigate("/admin");
+        }}
+      >
+        Back
+      </button>
     </div>
   );
 };

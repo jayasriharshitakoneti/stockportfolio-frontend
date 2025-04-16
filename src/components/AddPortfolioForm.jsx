@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Form, Button, Alert, Container } from "react-bootstrap";
 
 const AddPortfolioForm = ({ onAdded }) => {
   const user_id = localStorage.getItem("userId");
@@ -25,17 +26,31 @@ const AddPortfolioForm = ({ onAdded }) => {
   };
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <Container style={{ marginTop: "20px" }}>
       <h3>Add Portfolio</h3>
-      <input
-        type="text"
-        placeholder="Portfolio Name"
-        value={portfolio_name}
-        onChange={(e) => setPortfolioName(e.target.value)}
-      />
-      <button onClick={submit}>➕ Create</button>
-      {message && <p>{message}</p>}
-    </div>
+      <Form>
+        <Form.Group className="mb-3" controlId="formPortfolioName">
+          <Form.Label>Portfolio Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter portfolio name"
+            value={portfolio_name}
+            onChange={(e) => setPortfolioName(e.target.value)}
+          />
+        </Form.Group>
+        <Button variant="primary" onClick={submit}>
+          ➕ Create
+        </Button>
+      </Form>
+      {message && (
+        <Alert
+          variant={message.startsWith("✅") ? "success" : "danger"}
+          className="mt-3"
+        >
+          {message}
+        </Alert>
+      )}
+    </Container>
   );
 };
 

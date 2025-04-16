@@ -44,8 +44,13 @@ const AddStockForm = () => {
           />
         </div>
       ))}
-      <button onClick={submit} style={{ padding: "10px 20px" }}>
-        Add Stock
+      <button onClick={submit}>Add Stock</button>
+      <button
+        onClick={() => {
+          navigate("/admin");
+        }}
+      >
+        Back
       </button>
     </div>
   );

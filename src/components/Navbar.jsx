@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { Navbar, Nav, Button, Container, Dropdown } from "react-bootstrap";
 
 const AppNavbar = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role"); // Role can be "INVESTOR" or "ADMIN"
 
   const logout = () => {
     localStorage.clear();
@@ -16,13 +16,35 @@ const AppNavbar = () => {
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
           style={{ cursor: "pointer" }}
         >
           KoRe
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {userId && (
+              <>
+                <Nav.Link onClick={() => navigate("/dashboard")}>
+                  Dashboard
+                </Nav.Link>
+                {role === "INVESTOR" && (
+                  <>
+                    <Nav.Link onClick={() => navigate("/holdings")}>
+                      Holdings
+                    </Nav.Link>
+                    <Nav.Link onClick={() => navigate("/watchlist")}>
+                      Watchlist
+                    </Nav.Link>
+                    <Nav.Link onClick={() => navigate("/funds")}>
+                      Funds
+                    </Nav.Link>
+                  </>
+                )}
+              </>
+            )}
+          </Nav>
           <Nav className="ms-auto">
             {!userId ? (
               <>
@@ -42,27 +64,25 @@ const AppNavbar = () => {
               </>
             ) : (
               <>
-                {role === "admin" && (
-                  <Button
-                    variant="outline-light"
-                    className="me-2"
-                    onClick={() => navigate("/admin")}
-                  >
-                    Admin Dashboard
-                  </Button>
-                )}
-                {role === "investor" && (
-                  <Button
-                    variant="outline-light"
-                    className="me-2"
-                    onClick={() => navigate("/dashboard")}
-                  >
-                    Investor Dashboard
-                  </Button>
-                )}
-                <Button variant="danger" onClick={logout}>
-                  Logout
-                </Button>
+                <Dropdown align="end">
+                  <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
+                    Profile
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {role === "INVESTOR" && (
+                      <>
+                        <Dropdown.Item onClick={() => navigate("/preferences")}>
+                          Preferences
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => navigate("/goals")}>
+                          Goals
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                      </>
+                    )}
+                    <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </>
             )}
           </Nav>

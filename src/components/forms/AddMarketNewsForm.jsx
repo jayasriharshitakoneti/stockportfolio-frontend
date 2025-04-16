@@ -78,6 +78,13 @@ const AddMarketNewsForm = () => {
       <button onClick={submit} style={{ padding: "10px 20px" }}>
         Submit
       </button>
+      <button
+        onClick={() => {
+          navigate("/admin");
+        }}
+      >
+        Back
+      </button>
     </div>
   );
 };

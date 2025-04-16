@@ -8,6 +8,7 @@ import AvailableStockList from "./AvailableStockList";
 import AddPortfolioForm from "./AddPortfolioForm";
 
 import axios from "axios";
+import { Container, Card, Button, ListGroup, Alert } from "react-bootstrap";
 
 const DashboardPage = () => {
   const [data, setData] = useState(null);
@@ -29,173 +30,171 @@ const DashboardPage = () => {
     data;
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>📊 Investor Dashboard</h1>
+    <Container className="mt-4">
+      <h1 className="text-center mb-4">📊 Investor Dashboard</h1>
+
       {/* 🧑 Profile Section */}
-      <section style={styles.card}>
-        <h2>
-          👤 Welcome, {userInfo.firstname} {userInfo.lastname}
-        </h2>
-        <p>Email: {userInfo.email}</p>
-        <p>
-          KYC Status:{" "}
-          <span style={styles.kyc(userInfo.is_kyc_done)}>
-            {userInfo.is_kyc_done ? "✅ Done" : "❌ Pending"}
-          </span>
-          💰 Available Funds:{" "}
-          <strong>${parseFloat(userInfo.available_funds).toFixed(2)}</strong>
-        </p>
-      </section>
+      <Card className="mb-4">
+        <Card.Body>
+          <Card.Title>
+            👤 Welcome, {userInfo.firstname} {userInfo.lastname}
+          </Card.Title>
+          <Card.Text>Email: {userInfo.email}</Card.Text>
+          <Card.Text>
+            KYC Status:{" "}
+            <span
+              style={{
+                color: userInfo.is_kyc_done ? "green" : "crimson",
+                fontWeight: "bold",
+              }}
+            >
+              {userInfo.is_kyc_done ? "✅ Done" : "❌ Pending"}
+            </span>
+          </Card.Text>
+          <Card.Text>
+            💰 Available Funds:{" "}
+            <strong>${parseFloat(userInfo.available_funds).toFixed(2)}</strong>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+
       {/* ⚙️ Preferences */}
-      <section style={styles.card}>
-        <h2>⚙️ Preferences</h2>
-        <p>Preferred Sector: {preferences?.preferred_sector || "N/A"}</p>
-        <p>Risk Level: {preferences?.preferred_risk_level || "N/A"}</p>
-        <p>
-          Notifications:{" "}
-          {preferences?.notification_enabled ? "🔔 Enabled" : "🔕 Disabled"}
-        </p>
-        <PreferencesForm
-          current={preferences}
-          onUpdate={() => window.location.reload()}
-        />
-      </section>
+      <Card className="mb-4">
+        <Card.Body>
+          <Card.Title>⚙️ Preferences</Card.Title>
+          <Card.Text>
+            Preferred Sector: {preferences?.preferred_sector || "N/A"}
+          </Card.Text>
+          <Card.Text>
+            Risk Level: {preferences?.preferred_risk_level || "N/A"}
+          </Card.Text>
+          <Card.Text>
+            Notifications:{" "}
+            {preferences?.notification_enabled ? "🔔 Enabled" : "🔕 Disabled"}
+          </Card.Text>
+          <PreferencesForm
+            current={preferences}
+            onUpdate={() => window.location.reload()}
+          />
+        </Card.Body>
+      </Card>
 
       {/* 🎯 Goals */}
-      <section style={styles.card}>
-        <h2>🎯 Investment Goals</h2>
-        {goals?.map((goal) => (
-          <EditableGoalCard
-            key={goal.goal_id}
-            goal={goal}
-            onGoalUpdated={() => window.location.reload()}
-          />
-        ))}
-        <AddGoalForm onGoalAdded={() => window.location.reload()} />
-      </section>
+      <Card className="mb-4">
+        <Card.Body>
+          <Card.Title>🎯 Investment Goals</Card.Title>
+          {goals?.map((goal) => (
+            <EditableGoalCard
+              key={goal.goal_id}
+              goal={goal}
+              onGoalUpdated={() => window.location.reload()}
+            />
+          ))}
+          <AddGoalForm onGoalAdded={() => window.location.reload()} />
+        </Card.Body>
+      </Card>
 
-      <section style={styles.card}>
-        <h2>📌 Watchlist</h2>
-        {watchlist?.length ? (
-          <ul>
-            {watchlist.map((stock) => (
-              <li key={stock.stock_id}>
-                <strong>{stock.symbol}</strong> – {stock.company_name} ($
-                {stock.current_value})
-                <button
-                  style={styles.removeBtn}
-                  onClick={async () => {
-                    try {
-                      await axios.post(
-                        "http://localhost:8080/watchlist/remove",
-                        {
-                          user_id: userId,
-                          stock_id: stock.stock_id,
-                        }
-                      );
-                      window.location.reload();
-                    } catch {
-                      alert("❌ Failed to remove");
-                    }
-                  }}
+      {/* 📌 Watchlist */}
+      <Card className="mb-4">
+        <Card.Body>
+          <Card.Title>📌 Watchlist</Card.Title>
+          {watchlist?.length ? (
+            <ListGroup>
+              {watchlist.map((stock) => (
+                <ListGroup.Item
+                  key={stock.stock_id}
+                  className="d-flex flex-column w-100 justify-content-between"
                 >
-                  ❌ Remove
-                </button>
-                <TradeStockForm
-                  stockId={stock.stock_id}
-                  symbol={stock.symbol}
-                  portfolios={portfolios}
-                  onTrade={() => window.location.reload()}
-                />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No stocks in watchlist.</p>
-        )}
-      </section>
+                  <span>
+                    <strong>{stock.symbol}</strong> – {stock.company_name} ($
+                    {stock.current_value})
+                  </span>
+                  <div>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="me-2"
+                      onClick={async () => {
+                        try {
+                          await axios.post(
+                            "http://localhost:8080/watchlist/remove",
+                            {
+                              user_id: userId,
+                              stock_id: stock.stock_id,
+                            }
+                          );
+                          window.location.reload();
+                        } catch {
+                          alert("❌ Failed to remove");
+                        }
+                      }}
+                    >
+                      ❌ Remove
+                    </Button>
+                    <TradeStockForm
+                      className="d-inline-block w-100"
+                      stockId={stock.stock_id}
+                      symbol={stock.symbol}
+                      portfolios={portfolios}
+                      onTrade={() => window.location.reload()}
+                    />
+                  </div>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          ) : (
+            <Alert variant="info">No stocks in watchlist.</Alert>
+          )}
+        </Card.Body>
+      </Card>
 
       {/* 💼 Portfolios */}
-      <section style={styles.card}>
-        <h2>💼 Portfolios</h2>
-        <AddPortfolioForm onAdded={() => window.location.reload()} />
+      <Card className="mb-4">
+        <Card.Body>
+          <Card.Title>💼 Portfolios</Card.Title>
+          <AddPortfolioForm onAdded={() => window.location.reload()} />
+          {portfolios?.map((p) => (
+            <Card className="mt-3" key={p.portfolio_id}>
+              <Card.Body>
+                <Card.Title>{p.portfolio_name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  Created: {new Date(p.created_date).toDateString()}
+                </Card.Subtitle>
+                <Card.Text>
+                  <strong>Total Profit/Loss:</strong> ${p.profit.toFixed(2)}
+                </Card.Text>
+                <ListGroup>
+                  {holdings
+                    .filter((h) => h.portfolio_id === p.portfolio_id)
+                    .map((h) => (
+                      <ListGroup.Item key={h.stock_id}>
+                        {h.symbol} – {h.company_name}
+                        <br />
+                        Shares: {h.shares_owned}, Avg Price: $
+                        {h.stock_average_price}, Current Value: $
+                        {h.current_value} →{" "}
+                        <strong>Total: ${h.total_value}</strong>,{" "}
+                        <strong>
+                          Profit/Loss: $
+                          {h.total_value -
+                            h.shares_owned * h.stock_average_price}
+                        </strong>
+                      </ListGroup.Item>
+                    ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          ))}
+        </Card.Body>
+      </Card>
 
-        {portfolios?.map((p) => (
-          <div key={p.portfolio_id} style={styles.subCard}>
-            <strong>{p.portfolio_name}</strong> (ID: {p.portfolio_id}) –
-            Created: {new Date(p.created_date).toDateString()}
-            <p>
-              <strong>Total Profit/Loss:</strong> ${p.profit.toFixed(2)}
-            </p>
-            <ul>
-              {holdings
-                .filter((h) => h.portfolio_id === p.portfolio_id)
-                .map((h) => (
-                  <li key={h.stock_id}>
-                    {h.symbol} – {h.company_name}
-                    <br />
-                    Shares: {h.shares_owned}, Avg Price: $
-                    {h.stock_average_price}, Current Value: ${h.current_value} →{" "}
-                    <strong>Total: ${h.total_value}</strong>,{" "}
-                    <strong>
-                      Profit/Loss: $
-                      {h.total_value - h.shares_owned * h.stock_average_price}
-                    </strong>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-      {console.log(holdings)}
       {/* 📊 Sector Breakdown */}
       {holdings?.length > 0 && <SectorChart holdings={holdings} />}
-      <AvailableStockList onAdded={() => window.location.reload()} />
-    </div>
-  );
-};
 
-const styles = {
-  removeBtn: {
-    marginLeft: "10px",
-    background: "#e74c3c",
-    color: "white",
-    border: "none",
-    padding: "5px 10px",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
-  container: {
-    maxWidth: "1000px",
-    margin: "0 auto",
-    padding: "40px",
-    fontFamily: "Segoe UI, sans-serif",
-    color: "#2c3e50",
-  },
-  heading: {
-    marginBottom: "30px",
-    fontSize: "32px",
-    textAlign: "center",
-    color: "#34495e",
-  },
-  card: {
-    background: "#fff",
-    padding: "20px 25px",
-    borderRadius: "10px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-    marginBottom: "30px",
-  },
-  subCard: {
-    padding: "10px 15px",
-    margin: "10px 0",
-    background: "#f7f9fa",
-    borderRadius: "8px",
-    borderLeft: "4px solid #3498db",
-  },
-  kyc: (done) => ({
-    color: done ? "green" : "crimson",
-    fontWeight: "bold",
-  }),
+      {/* 📘 Available Stocks */}
+      <AvailableStockList onAdded={() => window.location.reload()} />
+    </Container>
+  );
 };
 
 export default DashboardPage;

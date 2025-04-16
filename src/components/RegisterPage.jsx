@@ -1,58 +1,85 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Navbar, Nav, Button, Container, Dropdown } from "react-bootstrap";
 
-const RegisterPage = () => {
-  const [form, setForm] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    secret: "",
-  });
-  const [error, setError] = useState("");
+const AppNavbar = () => {
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
-  };
-
-  const submit = async () => {
-    if (!form.firstname || !form.lastname || !form.email || !form.secret) {
-      setError("All fields are required");
-      return;
-    }
-
-    try {
-      await axios.post("http://localhost:8080/register", form);
-      alert("Registered successfully!");
-      navigate("/");
-    } catch (err) {
-      setError(err.response?.data?.error || "Registration failed");
-    }
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto" }}>
-      <h2>Investor Registration</h2>
-      {["firstname", "lastname", "email", "secret"].map((field) => (
-        <div key={field}>
-          <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-          <input
-            type={field === "secret" ? "password" : "text"}
-            name={field}
-            value={form[field]}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-          />
-        </div>
-      ))}
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <button onClick={submit} style={{ padding: "10px 20px" }}>
-        Register
-      </button>
-    </div>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand
+          onClick={() => navigate("/dashboard")}
+          style={{ cursor: "pointer" }}
+        >
+          KoRe
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {userId && (
+              <>
+                <Nav.Link onClick={() => navigate("/dashboard")}>
+                  Dashboard
+                </Nav.Link>
+                <Nav.Link onClick={() => navigate("/holdings")}>
+                  Holdings
+                </Nav.Link>
+                <Nav.Link onClick={() => navigate("/watchlist")}>
+                  Watchlist
+                </Nav.Link>
+                <Nav.Link onClick={() => navigate("/funds")}>Funds</Nav.Link>
+              </>
+            )}
+          </Nav>
+          <Nav className="ms-auto">
+            {!userId ? (
+              <>
+                <Button
+                  variant="outline-light"
+                  className="me-2"
+                  onClick={() => navigate("/")}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="outline-light"
+                  onClick={() => navigate("/register")}
+                >
+                  Register
+                </Button>
+              </>
+            ) : (
+              <>
+                <Dropdown align="end">
+                  <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
+                    Profile
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => navigate("/preferences")}>
+                      Preferences
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => navigate("/goals")}>
+                      Goals
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
-export default RegisterPage;
+export default AppNavbar;
