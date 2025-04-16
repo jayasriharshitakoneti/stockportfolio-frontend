@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, Container, ListGroup, Button, Modal } from "react-bootstrap";
+import { Card, Container, Button, Modal, Table } from "react-bootstrap";
 import AddPortfolioForm from "./forms/AddPortfolioForm"; // Adjust the import path as needed
 
 const HoldingsPage = () => {
@@ -44,28 +44,58 @@ const HoldingsPage = () => {
               Created: {new Date(portfolio.created_date).toDateString()}
             </Card.Subtitle>
             <Card.Text>
-              <strong>Total Profit/Loss:</strong> ${portfolio.profit.toFixed(2)}
+              Total Profit/Loss:{" "}
+              <strong>
+                <span
+                  className={
+                    portfolio.profit < 0 ? "text-danger" : "text-success"
+                  }
+                >
+                  ${Math.abs(portfolio.profit.toFixed(2))}
+                </span>
+              </strong>
             </Card.Text>
-            <ListGroup>
-              {holdings
-                .filter((h) => h.portfolio_id === portfolio.portfolio_id)
-                .map((h) => (
-                  <ListGroup.Item key={h.stock_id}>
-                    {h.symbol} - {h.company_name}
-                    <br />
-                    Shares: {h.shares_owned}, Avg Price: $
-                    {h.stock_average_price}, Current Value: ${h.current_value} →{" "}
-                    <strong>Total: ${h.total_value}</strong>,{" "}
-                    <strong>
-                      Profit/Loss: $
-                      {(
-                        h.total_value -
-                        h.shares_owned * h.stock_average_price
-                      ).toFixed(2)}
-                    </strong>
-                  </ListGroup.Item>
-                ))}
-            </ListGroup>
+            <Table striped bordered hover size="sm">
+              <thead>
+                <tr>
+                  <th>Stock Symbol</th>
+                  <th>Company Name</th>
+                  <th>Shares Owned</th>
+                  <th>Avg Price</th>
+                  <th>Current Value</th>
+                  <th>Total Value</th>
+                  <th>Profit/Loss</th>
+                </tr>
+              </thead>
+              <tbody>
+                {holdings
+                  .filter((h) => h.portfolio_id === portfolio.portfolio_id)
+                  .map((h) => (
+                    <tr key={h.stock_id}>
+                      <td>{h.symbol}</td>
+                      <td>{h.company_name}</td>
+                      <td>{h.shares_owned}</td>
+                      <td>${h.stock_average_price}</td>
+                      <td>${h.current_value}</td>
+                      <td>${h.total_value}</td>
+                      <td
+                        className={
+                          h.total_value -
+                            h.shares_owned * h.stock_average_price <
+                          0
+                            ? "text-danger"
+                            : "text-success"
+                        }
+                      >
+                        $
+                        {Math.abs(
+                          h.total_value - h.shares_owned * h.stock_average_price
+                        ).toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
           </Card.Body>
         </Card>
       ))}

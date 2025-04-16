@@ -27,7 +27,6 @@ const AddPortfolioForm = ({ onAdded }) => {
 
   return (
     <Container style={{ marginTop: "20px" }}>
-      <h3>Add Portfolio</h3>
       <Form>
         <Form.Group className="mb-3" controlId="formPortfolioName">
           <Form.Label>Portfolio Name</Form.Label>

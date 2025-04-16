@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  Form,
+  Button,
+  Alert,
+  Container,
+  Row,
+  Col,
+  Card,
+} from "react-bootstrap";
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
@@ -24,7 +33,6 @@ const RegisterPage = () => {
     }
 
     try {
-      console.log("Form data:", form); // Debugging line
       await axios.post("http://localhost:8080/register", form);
       alert("Registered successfully!");
       navigate("/");
@@ -34,25 +42,70 @@ const RegisterPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto" }}>
-      <h2>Investor Registration</h2>
-      {["firstname", "lastname", "email", "secret"].map((field) => (
-        <div key={field}>
-          <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-          <input
-            type={field === "secret" ? "password" : "text"}
-            name={field}
-            value={form[field]}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-          />
-        </div>
-      ))}
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <button onClick={submit} style={{ padding: "10px 20px" }}>
-        Register
-      </button>
-    </div>
+    <Container className="mt-5">
+      <Row className="justify-content-md-center">
+        <Col md={6}>
+          <Card>
+            <Card.Body>
+              <h2 className="mb-4 text-center">Investor Registration</h2>
+              <Form>
+                <Form.Group className="mb-3" controlId="formFirstname">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="firstname"
+                    value={form.firstname}
+                    onChange={handleChange}
+                    placeholder="Enter first name"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formLastname">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="lastname"
+                    value={form.lastname}
+                    onChange={handleChange}
+                    placeholder="Enter last name"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Enter email"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formSecret">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="secret"
+                    value={form.secret}
+                    onChange={handleChange}
+                    placeholder="Enter password"
+                  />
+                </Form.Group>
+
+                {error && <Alert variant="danger">{error}</Alert>}
+
+                <div className="d-grid">
+                  <Button variant="primary" onClick={submit}>
+                    Register
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

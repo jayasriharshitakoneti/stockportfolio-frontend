@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 const AddStockForm = ({ onClose, onStockAdded }) => {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     symbol: "",
     company_name: "",
@@ -19,41 +18,142 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     try {
       await axios.post("http://localhost:8080/admin/add-stock", form);
       alert("Stock added successfully!");
-      navigate("/admin");
-      onClose();
+      onStockAdded(); // Refresh the stock list
+      onClose(); // Close the modal
     } catch (err) {
       alert("Error adding stock: " + err.response?.data?.error);
     }
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "auto" }}>
-      <h2>Add New Stock</h2>
-      {Object.entries(form).map(([key, value]) => (
-        <div key={key}>
-          <label>{key.replace(/_/g, " ")}</label>
-          <input
-            type="text"
-            name={key}
-            value={value}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-          />
+    <Container>
+      <h2 className="mb-4">Add New Stock</h2>
+      <Form onSubmit={submit}>
+        <Row>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="symbol">
+              <Form.Label>Symbol</Form.Label>
+              <Form.Control
+                type="text"
+                name="symbol"
+                value={form.symbol}
+                onChange={handleChange}
+                placeholder="Enter stock symbol"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="company_name">
+              <Form.Label>Company Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="company_name"
+                value={form.company_name}
+                onChange={handleChange}
+                placeholder="Enter company name"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="current_value">
+              <Form.Label>Current Value</Form.Label>
+              <Form.Control
+                type="number"
+                name="current_value"
+                value={form.current_value}
+                onChange={handleChange}
+                placeholder="Enter current value"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="market_cap">
+              <Form.Label>Market Cap</Form.Label>
+              <Form.Control
+                type="number"
+                name="market_cap"
+                value={form.market_cap}
+                onChange={handleChange}
+                placeholder="Enter market cap"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="sector">
+              <Form.Label>Sector</Form.Label>
+              <Form.Control
+                type="text"
+                name="sector"
+                value={form.sector}
+                onChange={handleChange}
+                placeholder="Enter sector"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="volatility">
+              <Form.Label>Volatility</Form.Label>
+              <Form.Select
+                name="volatility"
+                value={form.volatility}
+                onChange={handleChange}
+              >
+                <option value="LOW">Low</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+              </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="average_return">
+              <Form.Label>Average Return (%)</Form.Label>
+              <Form.Control
+                type="number"
+                name="average_return"
+                value={form.average_return}
+                onChange={handleChange}
+                placeholder="Enter average return"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="mb-3" controlId="stock_exchange">
+              <Form.Label>Stock Exchange</Form.Label>
+              <Form.Control
+                type="text"
+                name="stock_exchange"
+                value={form.stock_exchange}
+                onChange={handleChange}
+                placeholder="Enter stock exchange"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <div className="d-flex justify-content-end">
+          <Button variant="secondary" onClick={onClose} className="me-2">
+            Cancel
+          </Button>
+          <Button variant="primary" type="submit">
+            Add Stock
+          </Button>
         </div>
-      ))}
-      <button onClick={submit}>Add Stock</button>
-      <button
-        onClick={() => {
-          navigate("/admin");
-        }}
-      >
-        Back
-      </button>
-    </div>
+      </Form>
+    </Container>
   );
 };
 

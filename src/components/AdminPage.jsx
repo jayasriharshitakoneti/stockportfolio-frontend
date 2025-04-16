@@ -3,6 +3,7 @@ import { Tabs, Tab, Table, Button, Container, Modal } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddStockForm from "./forms/AddStockForm";
+import AddExchangeForm from "./forms/AddExchangeForm";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -10,6 +11,11 @@ const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [showAddStockModal, setShowAddStockModal] = useState(false);
+  const [showPriceModal, setShowPriceModal] = useState(false);
+  const [selectedStock, setSelectedStock] = useState(null);
+  const [newPrice, setNewPrice] = useState("");
+  const [showAddExchangeModal, setShowAddExchangeModal] = useState(false);
+  const [stockExchanges, setStockExchanges] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -35,6 +41,20 @@ const AdminPage = () => {
     };
     fetchStocks();
   }, [stocks]);
+
+  useEffect(() => {
+    const fetchStockExchanges = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/admin/stock-exchanges"
+        );
+        setStockExchanges(response.data);
+      } catch (error) {
+        console.error("Failed to fetch stock exchanges:", error);
+      }
+    };
+    fetchStockExchanges();
+  }, [stockExchanges]);
 
   const approveKYC = async (user_id) => {
     try {
@@ -118,10 +138,35 @@ const AdminPage = () => {
           <h3>Manage Stock Exchanges</h3>
           <Button
             variant="primary"
-            onClick={() => navigate("/admin/add-exchange")}
+            onClick={() => setShowAddExchangeModal(true)}
+            className="mb-3"
           >
             Add Stock Exchange
           </Button>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Opening Time</th>
+                <th>Closing Time</th>
+                <th>Timezone</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stockExchanges.map((exchange) => (
+                <tr key={exchange.stock_exchange_id}>
+                  <td>{exchange.stock_exchange_id}</td>
+                  <td>{exchange.stock_exchange_name}</td>
+                  <td>{exchange.country}</td>
+                  <td>{exchange.opening_time}</td>
+                  <td>{exchange.closing_time}</td>
+                  <td>{exchange.timezone}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </Tab>
 
         {/* Stocks Tab */}
@@ -145,6 +190,7 @@ const AdminPage = () => {
                 <th>Volatility</th>
                 <th>Exchange</th>
                 <th>Sector</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -158,6 +204,20 @@ const AdminPage = () => {
                   <td>{stock.volatility}</td>
                   <td>{stock.exchange_name}</td>
                   <td>{stock.sector}</td>
+                  <td>
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => {
+                        setSelectedStock(stock);
+                        setNewPrice(stock.current_value); // preload with current
+                        setShowPriceModal(true);
+                      }}
+                    >
+                      Update Price
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -196,6 +256,83 @@ const AdminPage = () => {
                 .then((response) => {
                   setStocks(response.data);
                 });
+            }}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showPriceModal}
+        onHide={() => setShowPriceModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Update Stock Price</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            <strong>{selectedStock?.symbol}</strong> –{" "}
+            {selectedStock?.company_name}
+          </p>
+          <input
+            type="number"
+            className="form-control mb-3"
+            value={newPrice}
+            onChange={(e) => setNewPrice(e.target.value)}
+          />
+          <Button
+            variant="primary"
+            onClick={async () => {
+              try {
+                await axios.post(
+                  "http://localhost:8080/admin/stocks/update-price",
+                  {
+                    stock_id: selectedStock.stock_id,
+                    new_price: parseFloat(newPrice),
+                  }
+                );
+                alert("Stock price updated successfully!");
+                setShowPriceModal(false);
+                // Refresh stocks
+                const response = await axios.get(
+                  "http://localhost:8080/admin/stocks"
+                );
+                setStocks(response.data);
+              } catch (err) {
+                alert(err.response?.data?.error || "Failed to update price.");
+              }
+            }}
+          >
+            Save
+          </Button>
+        </Modal.Body>
+      </Modal>
+
+      {/* Add Exchange Modal */}
+      <Modal
+        show={showAddExchangeModal}
+        onHide={() => setShowAddExchangeModal(false)}
+        size="lg"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Stock Exchange</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <AddExchangeForm
+            onClose={() => setShowAddExchangeModal(false)}
+            onExchangeAdded={() => {
+              try {
+                axios
+                  .get("http://localhost:8080/admin/stock-exchanges")
+                  .then((response) => {
+                    setStockExchanges(response.data);
+                  });
+                setShowAddExchangeModal(false);
+                alert("Stock Exchange added successfully!");
+              } catch (error) {
+                console.error("Failed to refresh exchanges:", error);
+              }
             }}
           />
         </Modal.Body>
