@@ -19,6 +19,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
   };
 
   const submit = async (e) => {
+    e.preventDefault();
     if (!form.symbol || !form.company_name || !form.current_value) {
       alert("Symbol, Company Name, and Current Value are required fields.");
     }
@@ -38,7 +39,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
         "Current Value, Market Cap must be positive numbers and Average Return cannot be negative."
       );
     }
-    e.preventDefault();
+
     try {
       await axios.post("http://localhost:8080/admin/add-stock", form);
       alert("Stock added successfully!");

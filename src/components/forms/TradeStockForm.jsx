@@ -16,7 +16,8 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     try {
       await axios.post("http://localhost:8080/trade", {
         ...form,

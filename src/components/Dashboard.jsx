@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import SectorChart from "./charts/SectorChart";
-import AddGoalForm from "./forms/AddGoalForm";
-import EditableGoalCard from "./EditableGoalCard";
-import PreferencesForm from "./forms/PreferencesForm";
-import TradeStockForm from "./forms/TradeStockForm";
-import AvailableStockList from "./AvailableStockList";
-import AddPortfolioForm from "./forms/AddPortfolioForm";
 import NewsFeed from "./NewsFeed";
 
 import axios from "axios";
-import { Container, Card, Button, ListGroup, Alert } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 
 const DashboardPage = () => {
   const [data, setData] = useState(null);
@@ -27,8 +21,7 @@ const DashboardPage = () => {
 
   if (!data) return <p style={{ padding: "30px" }}>Loading...</p>;
 
-  const { userInfo, preferences, goals, portfolios, holdings, watchlist } =
-    data;
+  const { userInfo, holdings } = data;
 
   return (
     <Container className="mt-4">

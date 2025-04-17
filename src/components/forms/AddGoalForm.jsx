@@ -10,6 +10,7 @@ const AddGoalForm = ({ onGoalAdded }) => {
   const [message, setMessage] = useState("");
 
   const submitGoal = async (e) => {
+    e.preventDefault();
     if (!goal_name || !target_amount || !target_date) {
       setMessage("All fields are required.");
       return;

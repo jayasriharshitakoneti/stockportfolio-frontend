@@ -17,7 +17,8 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
     setMessage("");
   };
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     try {
       await axios.post("http://localhost:8080/admin/add-exchange", form);
       setMessage("Stock Exchange added!");

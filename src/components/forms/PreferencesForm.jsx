@@ -14,7 +14,8 @@ const PreferencesForm = ({ current, onUpdate }) => {
   );
   const [message, setMessage] = useState("");
 
-  const save = async () => {
+  const save = async (e) => {
+    e.preventDefault();
     try {
       await axios.post("http://localhost:8080/preferences", {
         user_id: localStorage.getItem("userId"),

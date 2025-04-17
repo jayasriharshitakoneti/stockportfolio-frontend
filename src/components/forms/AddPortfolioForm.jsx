@@ -7,7 +7,8 @@ const AddPortfolioForm = ({ onAdded }) => {
   const [portfolio_name, setPortfolioName] = useState("");
   const [message, setMessage] = useState("");
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     if (!portfolio_name) {
       setMessage("Portfolio name cannot be empty");
       return;
@@ -17,11 +18,19 @@ const AddPortfolioForm = ({ onAdded }) => {
         user_id,
         portfolio_name,
       });
-      setMessage("Portfolio created!");
+      alert("Portfolio created!");
       setPortfolioName("");
       onAdded();
     } catch (err) {
-      setMessage("" + (err.response?.data?.error || "Failed to create"));
+      const msg = err.response?.data?.error || "Failed to create";
+
+      if (msg.toLowerCase().includes("duplicate")) {
+        setMessage("You already have a portfolio with this name.");
+      } else if (msg.toLowerCase().includes("foreign key")) {
+        setMessage("Invalid user. Please log in again.");
+      } else {
+        setMessage("Error: " + msg);
+      }
     }
   };
 
