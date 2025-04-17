@@ -18,6 +18,7 @@ const AdminPage = () => {
   const [showAddExchangeModal, setShowAddExchangeModal] = useState(false);
   const [stockExchanges, setStockExchanges] = useState([]);
   const [showNewsModal, setShowNewsModal] = useState(false);
+  const [news, setNews] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -57,6 +58,20 @@ const AdminPage = () => {
     };
     fetchStockExchanges();
   }, [stockExchanges]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/admin/news/all"
+        );
+        setNews(response.data);
+      } catch (error) {
+        console.error("Failed to fetch news:", error);
+      }
+    };
+    fetchNews();
+  }, []);
 
   const approveKYC = async (user_id) => {
     try {
@@ -228,10 +243,41 @@ const AdminPage = () => {
 
         {/* Market News Tab */}
         <Tab eventKey="market-news" title="Market News">
-          <h3>Manage Market News</h3>
-          <Button variant="primary" onClick={() => setShowNewsModal(true)}>
-            Add Market News
-          </Button>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h3>Manage Market News</h3>
+            <Button variant="primary" onClick={() => setShowNewsModal(true)}>
+              Add Market News
+            </Button>
+          </div>
+
+          {news.length > 0 ? (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Headline</th>
+                  <th>Stock</th>
+                  <th>Source</th>
+                  <th>Date</th>
+                  <th>Impact</th>
+                </tr>
+              </thead>
+              <tbody>
+                {news.map((n) => (
+                  <tr key={n.news_id}>
+                    <td>{n.headline}</td>
+                    <td>
+                      {n.symbol} – {n.company_name}
+                    </td>
+                    <td>{n.news_source}</td>
+                    <td>{n.publication_date}</td>
+                    <td>{n.impact_score}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <p>No market news available.</p>
+          )}
         </Tab>
       </Tabs>
 
@@ -352,6 +398,9 @@ const AdminPage = () => {
             onNewsAdded={() => {
               alert("News added successfully!");
               setShowNewsModal(false);
+              axios.get("http://localhost:8080/admin/news/all").then((res) => {
+                setNews(res.data);
+              });
             }}
           />
         </Modal.Body>

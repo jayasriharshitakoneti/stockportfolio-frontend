@@ -49,7 +49,13 @@ const AddMarketNewsForm = ({ onClose, onNewsAdded }) => {
       onNewsAdded();
       onClose();
     } catch (err) {
-      setError("Error: " + (err.response?.data?.error || "Server error"));
+      const msg = err.response?.data?.error || "Server error";
+
+      if (msg.includes("foreign key constraint fails")) {
+        setError("Invalid Stock ID: The specified stock does not exist.");
+      } else {
+        setError("Error: " + msg);
+      }
     }
   };
 
