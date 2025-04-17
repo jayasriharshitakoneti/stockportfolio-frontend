@@ -10,7 +10,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
     sector: "",
     market_cap: "",
     volatility: "MEDIUM",
-    average_return: "",
+    average_return: 0,
     stock_exchange: "",
   });
 
@@ -19,6 +19,25 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
   };
 
   const submit = async (e) => {
+    if (!form.symbol || !form.company_name || !form.current_value) {
+      alert("Symbol, Company Name, and Current Value are required fields.");
+    }
+    if (
+      isNaN(form.current_value) ||
+      isNaN(form.market_cap) ||
+      isNaN(form.average_return)
+    ) {
+      alert("Current Value, Market Cap, and Average Return must be numbers.");
+    }
+    if (
+      form.current_value <= 0 ||
+      form.market_cap <= 0 ||
+      form.average_return < 0
+    ) {
+      alert(
+        "Current Value, Market Cap must be positive numbers and Average Return cannot be negative."
+      );
+    }
     e.preventDefault();
     try {
       await axios.post("http://localhost:8080/admin/add-stock", form);
@@ -44,6 +63,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
                 value={form.symbol}
                 onChange={handleChange}
                 placeholder="Enter stock symbol"
+                required
               />
             </Form.Group>
           </Col>
@@ -56,6 +76,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
                 value={form.company_name}
                 onChange={handleChange}
                 placeholder="Enter company name"
+                required
               />
             </Form.Group>
           </Col>
@@ -71,6 +92,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
                 value={form.current_value}
                 onChange={handleChange}
                 placeholder="Enter current value"
+                required
               />
             </Form.Group>
           </Col>
@@ -83,6 +105,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
                 value={form.market_cap}
                 onChange={handleChange}
                 placeholder="Enter market cap"
+                required
               />
             </Form.Group>
           </Col>
@@ -98,6 +121,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
                 value={form.sector}
                 onChange={handleChange}
                 placeholder="Enter sector"
+                required
               />
             </Form.Group>
           </Col>
@@ -139,6 +163,7 @@ const AddStockForm = ({ onClose, onStockAdded }) => {
                 value={form.stock_exchange}
                 onChange={handleChange}
                 placeholder="Enter stock exchange"
+                required
               />
             </Form.Group>
           </Col>

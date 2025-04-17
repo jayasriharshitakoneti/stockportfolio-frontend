@@ -41,6 +41,7 @@ const AddGoalForm = ({ onGoalAdded }) => {
             type="text"
             placeholder="Enter goal name"
             value={goal_name}
+            required
             onChange={(e) => setGoalName(e.target.value)}
           />
         </Form.Group>
@@ -49,6 +50,7 @@ const AddGoalForm = ({ onGoalAdded }) => {
           <Form.Control
             type="number"
             placeholder="Enter target amount"
+            required
             value={target_amount}
             onChange={(e) => setTargetAmount(e.target.value)}
           />
@@ -58,6 +60,7 @@ const AddGoalForm = ({ onGoalAdded }) => {
           <Form.Control
             type="date"
             value={target_date}
+            required
             onChange={(e) => setTargetDate(e.target.value)}
           />
         </Form.Group>

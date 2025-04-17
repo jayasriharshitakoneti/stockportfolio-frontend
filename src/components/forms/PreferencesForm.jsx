@@ -32,7 +32,7 @@ const PreferencesForm = ({ current, onUpdate }) => {
   return (
     <Container style={{ marginTop: "20px" }}>
       <h3>Update Preferences</h3>
-      <Form>
+      <Form onSubmit={save}>
         <Form.Group className="mb-3" controlId="formPreferredSector">
           <Form.Label>Preferred Sector</Form.Label>
           <Form.Control
@@ -40,6 +40,7 @@ const PreferencesForm = ({ current, onUpdate }) => {
             value={preferred_sector}
             onChange={(e) => setSector(e.target.value)}
             placeholder="Enter preferred sector"
+            required
           />
         </Form.Group>
 
@@ -65,7 +66,7 @@ const PreferencesForm = ({ current, onUpdate }) => {
           />
         </Form.Group>
 
-        <Button variant="primary" onClick={save}>
+        <Button variant="primary" type="submit">
           Save Preferences
         </Button>
       </Form>

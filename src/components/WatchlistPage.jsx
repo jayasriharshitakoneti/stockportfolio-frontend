@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import TradeStockForm from "./forms/TradeStockForm";
 import AvailableStockList from "./AvailableStockList";
+import { useNavigate } from "react-router-dom";
 
 const WatchlistPage = () => {
   const [data, setData] = useState(null);
@@ -18,6 +19,7 @@ const WatchlistPage = () => {
   const [selectedSymbol, setSelectedSymbol] = useState("");
   const userId = localStorage.getItem("userId");
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -119,7 +121,8 @@ const WatchlistPage = () => {
               symbol={selectedSymbol}
               onTrade={() => {
                 handleTradeClose();
-                window.location.reload();
+                alert("Trade successful!");
+                navigate("/holdings"); // Redirect to HoldingsPage after trading
               }}
             />
           )}

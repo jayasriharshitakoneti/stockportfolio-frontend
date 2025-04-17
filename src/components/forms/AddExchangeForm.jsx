@@ -18,10 +18,6 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
   };
 
   const submit = async () => {
-    if (form.opening_time === "" || form.closing_time === "") {
-      setMessage("Opening and Closing times are required.");
-      return;
-    }
     try {
       await axios.post("http://localhost:8080/admin/add-exchange", form);
       setMessage("Stock Exchange added!");
@@ -33,7 +29,7 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
   };
 
   return (
-    <Form>
+    <Form onSubmit={submit}>
       <Form.Group className="mb-3" controlId="formExchangeName">
         <Form.Label>Exchange Name</Form.Label>
         <Form.Control
@@ -42,6 +38,7 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
           value={form.name}
           onChange={handleChange}
           placeholder="Enter exchange name"
+          required
         />
       </Form.Group>
 
@@ -53,6 +50,7 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
           value={form.country}
           onChange={handleChange}
           placeholder="Enter country"
+          required
         />
       </Form.Group>
 
@@ -74,6 +72,7 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
           name="opening_time"
           value={form.opening_time}
           onChange={handleChange}
+          required
         />
       </Form.Group>
 
@@ -84,6 +83,7 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
           name="closing_time"
           value={form.closing_time}
           onChange={handleChange}
+          required
         />
       </Form.Group>
 
@@ -101,7 +101,7 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
         <Button variant="secondary" onClick={onClose} className="me-2">
           Cancel
         </Button>
-        <Button variant="primary" onClick={submit}>
+        <Button variant="primary" type="submit">
           Add Exchange
         </Button>
       </div>

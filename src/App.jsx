@@ -6,7 +6,6 @@ import LoginPage from "./components/login/LoginPage";
 import AdminPage from "./components/AdminPage";
 import AddStockForm from "./components/forms/AddStockForm";
 import AddExchangeForm from "./components/forms/AddExchangeForm";
-// import UpdateKYCForm from "./components/forms/UpdateKYCForm";
 import UpdateStockPriceForm from "./components/forms/UpdateStockPriceForm";
 import AddMarketNewsForm from "./components/forms/AddMarketNewsForm";
 import RegisterPage from "./components/RegisterPage";
@@ -17,10 +16,15 @@ import HoldingsPage from "./components/HoldingsPage";
 import WatchlistPage from "./components/WatchlistPage";
 import PreferencesPage from "./components/PreferencesPage";
 import GoalsPage from "./components/GoalsPage";
+import NoAccessPage from "./components/NoAccessPage";
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
     const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+    if (role === "ADMIN") {
+      return userId ? <Navigate to="/admin" /> : children;
+    }
     return userId ? <Navigate to="/dashboard" /> : children;
   };
   return (
@@ -36,12 +40,7 @@ const App = () => {
           }
         />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/holdings" element={<HoldingsPage />} />
-        <Route path="/watchlist" element={<WatchlistPage />} />
-        <Route path="/funds" element={<FundsPage />} />
-        <Route path="/preferences" element={<PreferencesPage />} />
-        <Route path="/goals" element={<GoalsPage />} />
+        <Route path="/no-access" element={<NoAccessPage />} />
 
         {/* Investor-only route */}
         <Route
@@ -49,6 +48,51 @@ const App = () => {
           element={
             <PrivateRoute allowedRoles={["INVESTOR"]}>
               <DashboardPage />
+            </PrivateRoute>
+          }
+        />
+        {/* Investor-only route */}
+        <Route
+          path="/holdings"
+          element={
+            <PrivateRoute allowedRoles={["INVESTOR"]}>
+              <HoldingsPage />
+            </PrivateRoute>
+          }
+        />
+        {/* Investor-only route */}
+        <Route
+          path="/watchlist"
+          element={
+            <PrivateRoute allowedRoles={["INVESTOR"]}>
+              <WatchlistPage />
+            </PrivateRoute>
+          }
+        />
+        {/* Investor-only route */}
+        <Route
+          path="/funds"
+          element={
+            <PrivateRoute allowedRoles={["INVESTOR"]}>
+              <FundsPage />
+            </PrivateRoute>
+          }
+        />
+        {/* Investor-only route */}
+        <Route
+          path="/preferences"
+          element={
+            <PrivateRoute allowedRoles={["INVESTOR"]}>
+              <PreferencesPage />
+            </PrivateRoute>
+          }
+        />
+        {/* Investor-only route */}
+        <Route
+          path="/goals"
+          element={
+            <PrivateRoute allowedRoles={["INVESTOR"]}>
+              <GoalsPage />
             </PrivateRoute>
           }
         />

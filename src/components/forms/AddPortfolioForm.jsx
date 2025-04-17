@@ -27,7 +27,7 @@ const AddPortfolioForm = ({ onAdded }) => {
 
   return (
     <Container style={{ marginTop: "20px" }}>
-      <Form>
+      <Form onSubmit={submit}>
         <Form.Group className="mb-3" controlId="formPortfolioName">
           <Form.Label>Portfolio Name</Form.Label>
           <Form.Control
@@ -35,9 +35,10 @@ const AddPortfolioForm = ({ onAdded }) => {
             placeholder="Enter portfolio name"
             value={portfolio_name}
             onChange={(e) => setPortfolioName(e.target.value)}
+            required
           />
         </Form.Group>
-        <Button variant="primary" onClick={submit}>
+        <Button variant="primary" type="submit">
           Create
         </Button>
       </Form>

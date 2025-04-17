@@ -26,11 +26,11 @@ const AppNavbar = () => {
           <Nav className="me-auto">
             {userId && (
               <>
-                <Nav.Link onClick={() => navigate("/dashboard")}>
-                  Dashboard
-                </Nav.Link>
                 {role === "INVESTOR" && (
                   <>
+                    <Nav.Link onClick={() => navigate("/dashboard")}>
+                      Dashboard
+                    </Nav.Link>
                     <Nav.Link onClick={() => navigate("/holdings")}>
                       Holdings
                     </Nav.Link>

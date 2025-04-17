@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddStockForm from "./forms/AddStockForm";
 import AddExchangeForm from "./forms/AddExchangeForm";
+import AddMarketNewsForm from "./forms/AddMarketNewsForm";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const AdminPage = () => {
   const [newPrice, setNewPrice] = useState("");
   const [showAddExchangeModal, setShowAddExchangeModal] = useState(false);
   const [stockExchanges, setStockExchanges] = useState([]);
+  const [showNewsModal, setShowNewsModal] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -227,10 +229,7 @@ const AdminPage = () => {
         {/* Market News Tab */}
         <Tab eventKey="market-news" title="Market News">
           <h3>Manage Market News</h3>
-          <Button
-            variant="primary"
-            onClick={() => navigate("/admin/add-market-news")}
-          >
+          <Button variant="primary" onClick={() => setShowNewsModal(true)}>
             Add Market News
           </Button>
         </Tab>
@@ -333,6 +332,26 @@ const AdminPage = () => {
               } catch (error) {
                 console.error("Failed to refresh exchanges:", error);
               }
+            }}
+          />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showNewsModal}
+        onHide={() => setShowNewsModal(false)}
+        size="lg"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Market News</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <AddMarketNewsForm
+            onClose={() => setShowNewsModal(false)}
+            onNewsAdded={() => {
+              alert("News added successfully!");
+              setShowNewsModal(false);
             }}
           />
         </Modal.Body>

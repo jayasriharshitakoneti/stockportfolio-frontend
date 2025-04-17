@@ -33,13 +33,14 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
   return (
     <Container style={styles.formBox}>
       <h4>Trade {symbol}</h4>
-      <Form>
+      <Form onSubmit={submit}>
         <Form.Group className="mb-3" controlId="formPortfolio">
           <Form.Label>Portfolio</Form.Label>
           <Form.Select
             name="portfolio_id"
             value={form.portfolio_id}
             onChange={handleChange}
+            required
           >
             {portfolios.map((p) => (
               <option key={p.portfolio_id} value={p.portfolio_id}>
@@ -55,6 +56,7 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
             name="buy_or_sell"
             value={form.buy_or_sell}
             onChange={handleChange}
+            required
           >
             <option value="BUY">Buy</option>
             <option value="SELL">Sell</option>
@@ -70,6 +72,7 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
             value={form.quantity}
             onChange={handleChange}
             placeholder="Enter quantity"
+            required
           />
         </Form.Group>
 
@@ -79,6 +82,7 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
             name="order_type"
             value={form.order_type}
             onChange={handleChange}
+            required
           >
             <option value="MARKET">Market</option>
             <option value="LIMIT">Limit</option>
@@ -95,10 +99,11 @@ const TradeStockForm = ({ portfolios, stockId, symbol, onTrade }) => {
             value={form.transaction_mode}
             onChange={handleChange}
             placeholder="Enter transaction mode"
+            required
           />
         </Form.Group>
 
-        <Button variant="primary" onClick={submit}>
+        <Button variant="primary" type="submit">
           Execute
         </Button>
       </Form>
