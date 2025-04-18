@@ -25,7 +25,15 @@ const AddExchangeForm = ({ onClose, onExchangeAdded }) => {
       onExchangeAdded(); // Refresh the exchange list
       onClose(); // Close the modal
     } catch (err) {
-      setMessage("Error: " + (err.response?.data?.error || "Unknown error"));
+      const msg = err.response?.data?.error || "Failed to create";
+
+      if (msg.toLowerCase().includes("duplicate")) {
+        setMessage("You already have a stock exchange with this name.");
+      } else if (msg.toLowerCase().includes("check constraint")) {
+        setMessage("Closing time must be after opening time.");
+      } else {
+        setMessage("Error: " + msg);
+      }
     }
   };
 
