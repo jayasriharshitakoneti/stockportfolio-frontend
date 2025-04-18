@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, Card, ListGroup, Container } from "react-bootstrap";
 import axios from "axios";
 import AddGoalForm from "./forms/AddGoalForm";
+import EditableGoalCard from "./EditableGoalCard";
 
 const GoalsPage = () => {
   const [goals, setGoals] = useState([]);
@@ -23,7 +24,7 @@ const GoalsPage = () => {
       }
     };
     fetchGoals();
-  }, [userId]);
+  }, [userId, goals]);
 
   const handleGoalAdded = () => {
     setShowModal(false);
@@ -35,10 +36,7 @@ const GoalsPage = () => {
       <h1 className="text-center mb-4">Investment Goals</h1>
       <ListGroup>
         {goals.map((goal) => (
-          <ListGroup.Item key={goal.goal_id}>
-            <strong>{goal.goal_name}</strong> - Target: ${goal.target_amount} by{" "}
-            {goal.target_date}
-          </ListGroup.Item>
+          <EditableGoalCard key={goal.goal_id} goal={goal} />
         ))}
       </ListGroup>
       <Button

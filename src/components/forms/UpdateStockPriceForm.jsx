@@ -63,10 +63,7 @@ const UpdateStockPriceForm = () => {
     }
 
     try {
-      await axios.post(
-        "http://localhost:8080/admin/update-price-history",
-        form
-      );
+      await axios.put("http://localhost:8080/admin/update-price-history", form);
       alert("Stock price history updated!");
       navigate("/admin");
     } catch (err) {
